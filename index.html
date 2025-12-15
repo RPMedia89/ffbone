@@ -321,20 +321,32 @@ summary{
   .nav a{ font-size:18px; letter-spacing:.14em; }
   .nav-close{display:grid;place-items:center;}
 
+  /* ✅ FOOTER MOBILE: alles zentriert + Abstand */
   .bottombar{
-    align-items:flex-start;
+    align-items:center;          /* statt flex-start */
     flex-direction:column;
-    gap:14px;
+    gap:16px;
+    text-align:center;
   }
+
   .footer-links{
     width:100%;
-    justify-content:space-between;
-    gap:0;
+    justify-content:center;      /* statt space-between */
+    gap:18px;                    /* Abstand zwischen Kontakt/Impressum */
   }
-  .footer-links a{ flex:1; text-align:left; }
-  .footer-links a:last-child{ text-align:right; }
-  .social{ width:100%; justify-content:flex-start; }
+
+  .footer-links a{
+    flex:0;                      /* nicht mehr auseinanderziehen */
+    text-align:center;
+  }
+
+  .social{
+    width:100%;
+    justify-content:center;      /* Social Buttons zentrieren */
+  }
 }
+
+  
 </style>
 </head>
 
@@ -544,5 +556,6 @@ summary{
 
 </body>
 </html>
+
 
 
