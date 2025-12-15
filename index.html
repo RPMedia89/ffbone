@@ -352,149 +352,7 @@ summary{
 }
 
   .impressum{font-size: 12px;}
-
-
-  /* ================= CONTACT FORM ================= */
-.contact-form{
-  margin-top:22px;
-  max-width:720px;
-}
-
-.field{
-  position:relative;
-  margin:14px 0;
-}
-
-.field input,
-.field textarea{
-  width:100%;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.18);
-  background:rgba(255,255,255,.06);
-  color:#fff;
-  padding:18px 16px 14px;
-  font:inherit;
-  outline:none;
-  transition:border-color .2s ease, background .2s ease, box-shadow .2s ease;
-}
-
-.field textarea{
-  resize:vertical;
-  min-height:160px;
-}
-
-.field input::placeholder,
-.field textarea::placeholder{
-  color:transparent; /* wichtig für floating label */
-}
-
-.field label{
-  position:absolute;
-  left:14px;
-  top:16px;
-  padding:0 8px;
-  color:rgba(255,255,255,.72);
-  background:transparent;
-  pointer-events:none;
-  transform-origin:left top;
-  transition:transform .16s ease, top .16s ease, color .16s ease, background .16s ease;
-}
-
-/* floating state: focus oder nicht-leer */
-.field input:focus,
-.field textarea:focus{
-  border-color:rgba(255,255,255,.45);
-  background:rgba(255,255,255,.08);
-  box-shadow:0 0 0 3px rgba(255,255,255,.08);
-}
-
-.field input:focus + label,
-.field textarea:focus + label,
-.field input:not(:placeholder-shown) + label,
-.field textarea:not(:placeholder-shown) + label{
-  top:-10px;
-  transform:scale(.88);
-  color:rgba(255,255,255,.9);
-  background:rgba(0,0,0,.75);
-  border-radius:999px;
-}
-
-/* required visual hint when invalid (optional) */
-.field input:invalid:not(:placeholder-shown),
-.field textarea:invalid:not(:placeholder-shown){
-  border-color:rgba(255,90,90,.65);
-}
-
-/* submit button */
-.contact-submit{
-  margin-top:10px;
-  width:100%;
-  display:inline-flex;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
-  padding:14px 16px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.22);
-  background:rgba(255,255,255,.10);
-  color:#fff;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.12em;
-  cursor:pointer;
-  transition:transform .12s ease, background .2s ease, border-color .2s ease;
-}
-
-.contact-submit:hover{
-  background:rgba(255,255,255,.14);
-  border-color:rgba(255,255,255,.35);
-  transform:translateY(-1px);
-}
-
-.contact-submit:active{
-  transform:translateY(0);
-}
-
-.contact-submit:focus-visible{
-  outline:2px solid #fff;
-  outline-offset:2px;
-}
-
-.contact-note{
-  margin-top:12px;
-  font-size:14px;
-  color:rgba(255,255,255,.75);
-  line-height:1.4;
-  font-size:12px;
-}
-
-.contact-submit:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-  transform:none;
-  background:rgba(255,255,255,.06);
-  border-color:rgba(255,255,255,.14);
-}
-
-.contact-success{
-  margin-top:22px;
-  padding:22px;
-  border-radius:16px;
-  border:1px solid rgba(120,255,180,.35);
-  background:rgba(120,255,180,.08);
-  color:#eafff2;
-}
-
-.contact-success h3{
-  margin:0 0 6px;
-  font-weight:900;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  font-size:16px;
-}
-
-
-  
+ 
 </style>
 </head>
 
@@ -565,11 +423,13 @@ summary{
       </div>
     </div>
   </section>
-
 <section id="kontakt" class="section kontakt">
   <div class="section__inner">
     <h2>Kontakt</h2>
 
+    <a href="mailto:fashionedfrombone@gmail.com" class="mail-button">
+      E-Mail senden
+    </a>
   </div>
 </section>
 
@@ -723,6 +583,7 @@ Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unt
 
 </body>
 </html>
+
 
 
 
