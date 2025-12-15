@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FFBONE</title>
+<title>Fashioned from Bone</title>
 
 <style>
 :root{
   --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --top-h: 110px;
-  --bottom-h: 90px;
-  --pad-x: 36px;
+  --top-h:110px;
+  --bottom-h:90px;
+  --pad-x:36px;
 }
 
-*{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
 body{
   margin:0;
   font-family:var(--font);
@@ -25,7 +25,7 @@ body{
 /* ================= TOPBAR ================= */
 .topbar{
   position:fixed;
-  top:0; left:0; right:0;
+  inset:0 0 auto 0;
   padding:28px var(--pad-x);
   display:flex;
   justify-content:space-between;
@@ -33,26 +33,14 @@ body{
   z-index:100;
   pointer-events:none;
 }
-.topbar *{ pointer-events:auto; }
+.topbar *{pointer-events:auto;}
 
-.brand{
-  text-decoration:none;
-  color:inherit;
-  display:inline-flex;
-  align-items:center;
-}
-.brand__logo{
-  width:58px;
+.brand img{
   height:58px;
-  border:3px solid rgba(255,255,255,.92);
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  font-weight:900;
-  letter-spacing:.08em;
+  display:block;
 }
 
-/* Desktop Nav */
+/* NAV */
 .nav{
   display:flex;
   gap:34px;
@@ -65,39 +53,31 @@ body{
   font-size:14px;
   color:#fff;
   text-decoration:none;
-  padding:6px 0;
   border-bottom:2px solid transparent;
-  opacity:.95;
+  padding:6px 0;
 }
 .nav a:hover,
-.nav a:focus-visible,
-.nav a.is-active{
-  border-bottom-color:#fff;
-  outline:none;
-}
+.nav a.is-active{border-bottom-color:#fff;}
 
-/* Burger */
 .nav-toggle{
   display:none;
   width:44px;
   height:44px;
   background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.20);
+  border:1px solid rgba(255,255,255,.2);
   border-radius:12px;
-  padding:10px;
 }
 .nav-toggle span{
   display:block;
   height:2px;
   background:#fff;
   margin:6px 0;
-  border-radius:999px;
 }
 
 /* ================= FOOTER ================= */
 .bottombar{
   position:fixed;
-  bottom:0; left:0; right:0;
+  inset:auto 0 0 0;
   padding:26px var(--pad-x);
   display:flex;
   justify-content:space-between;
@@ -105,32 +85,20 @@ body{
   z-index:100;
   pointer-events:none;
 }
-.bottombar *{ pointer-events:auto; }
+.bottombar *{pointer-events:auto;}
 
-.social{
-  display:flex;
-  gap:12px;
-}
+.social{display:flex;gap:12px;}
 .icon{
-  width:34px;
-  height:34px;
+  width:36px;height:36px;
+  display:grid;place-items:center;
   border-radius:10px;
   border:1px solid rgba(255,255,255,.18);
   background:rgba(255,255,255,.06);
-  display:grid;
-  place-items:center;
-  text-decoration:none;
 }
-.icon svg{ fill:#fff; width:18px; height:18px; }
-.icon:hover,
-.icon:focus-visible{
-  background:rgba(255,255,255,.10);
-  outline:none;
-}
+.icon svg{width:18px;height:18px;fill:#fff;}
 
 .footer-links{
-  display:flex;
-  gap:28px;
+  display:flex;gap:28px;
 }
 .footer-links a{
   font-weight:900;
@@ -139,15 +107,9 @@ body{
   font-size:14px;
   color:#fff;
   text-decoration:none;
-  opacity:.95;
-}
-.footer-links a:hover,
-.footer-links a:focus-visible{
-  text-decoration:underline;
-  outline:none;
 }
 
-/* ================= ONEPAGER ================= */
+/* ================= PAGE ================= */
 .page{
   padding-top:var(--top-h);
   padding-bottom:var(--bottom-h);
@@ -156,355 +118,231 @@ body{
 .section{
   min-height:100vh;
   padding:24px var(--pad-x);
-  scroll-margin-top:var(--top-h);
   position:relative;
   overflow:hidden;
 }
-
 .section__inner{
   max-width:1100px;
   margin:0 auto;
   position:relative;
   z-index:2;
 }
-
-.section h1,
 .section h2{
   margin:0;
   font-weight:900;
   text-transform:uppercase;
-  letter-spacing:.10em;
-  font-size:clamp(24px, 2.5vw, 36px);
+  letter-spacing:.1em;
 }
+.section p{margin-top:18px;color:rgba(255,255,255,.85);}
 
-.section p{
-  margin-top:18px;
-  max-width:70ch;
-  color:rgba(255,255,255,.85);
-  line-height:1.6;
-}
-
-.section a{ color:rgba(255,255,255,.95); }
-
-/* Dezenter Stage-Look */
-.section::before{
-  content:"";
+/* ================= HERO SLIDER ================= */
+.hero{padding:0;}
+.hero__bg{
   position:absolute;
   inset:0;
-  pointer-events:none;
-  opacity:.10;
-  z-index:1;
-  background:
-    radial-gradient(900px 500px at 20% 20%, rgba(255,255,255,.10), transparent 60%),
-    radial-gradient(800px 400px at 70% 15%, rgba(255,255,255,.07), transparent 60%),
-    radial-gradient(1200px 700px at 50% 95%, rgba(0,0,0,.55), transparent 65%);
-}
-
-/* Section Colors */
-.hero{ background:#000; }
-.termine{ background:#0b0b12; }
-.media{ background:#120b0b; }
-.kontakt{ background:#0b120d; }
-.impressum{ background:#0a0a0a; }
-
-/* ================= GO TO TOP ================= */
-.gotop{
-  position:fixed;
-  right:var(--pad-x);
-  bottom:calc(var(--bottom-h) + 18px);
-  width:46px;
-  height:46px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.20);
-  background:rgba(0,0,0,.55);
-  backdrop-filter:blur(10px);
-  color:#fff;
-  display:grid;
-  place-items:center;
-  cursor:pointer;
+  background-size:cover;
+  background-position:center;
   opacity:0;
-  transform:translateY(10px);
-  pointer-events:none;
-  transition:opacity .2s ease, transform .2s ease;
-  z-index:120;
+  transition:opacity 1s ease;
 }
-.gotop.is-visible{
-  opacity:1;
-  transform:translateY(0);
-  pointer-events:auto;
-}
-.gotop:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
-.gotop svg{ width:18px; height:18px; fill:#fff; }
+.hero__bg.is-visible{opacity:1;}
 
-/* ================= SMOKE CANVAS ================= */
-#smoke{
-  position:fixed;
+.hero__overlay{
+  position:absolute;
   inset:0;
-  z-index:5;          /* unter Nav/Footer (100), über Sektionen */
-  pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.3), rgba(0,0,0,.85)),
+    radial-gradient(1200px 700px at 50% 90%, rgba(0,0,0,.6), transparent 70%);
+  z-index:1;
 }
 
-/* ================= MOBILE FULLSCREEN NAV ================= */
-@media (max-width:860px){
-  :root{ --top-h: 90px; --bottom-h: 80px; --pad-x: 18px; }
+/* ================= SECTIONS ================= */
+.termine{background:#0b0b12;}
+.media{background:#120b0b;}
+.kontakt{background:#0b120d;}
+.impressum{background:#0a0a0a;}
 
-  .nav-toggle{ display:inline-block; }
+/* ================= SHOWLIST ================= */
+.showlist{list-style:none;padding:0;margin-top:18px;}
+.showlist li{
+  display:flex;
+  gap:16px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,.15);
+}
+.show-date{min-width:130px;font-weight:900;}
 
-  /* Fullscreen overlay menu */
+details{margin-top:18px;}
+summary{
+  cursor:pointer;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+/* ================= MEDIA ================= */
+.video{margin-top:18px;max-width:960px;}
+.video-wrap{
+  position:relative;
+  padding-top:56.25%;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.15);
+}
+.video-wrap iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:860px){
+  :root{--top-h:90px;--bottom-h:80px;--pad-x:18px;}
+  .nav-toggle{display:block;}
   .nav{
     position:fixed;
     inset:0;
     display:none;
     flex-direction:column;
-    align-items:center;
     justify-content:center;
+    align-items:center;
     gap:22px;
-    margin:0;
-    background:rgba(0,0,0,.92);
-    backdrop-filter:blur(10px);
+    background:rgba(0,0,0,.95);
     z-index:110;
   }
-  .nav.is-open{ display:flex; }
-
-  .nav a{
-    font-size:18px;
-    letter-spacing:.14em;
-    border-bottom:2px solid transparent;
-  }
-
-  .topbar{ z-index:120; }
-
-  .section{ padding:22px var(--pad-x); }
-  .footer-links{ gap:18px; }
-
-  .gotop{
-    right:var(--pad-x);
-    bottom:calc(var(--bottom-h) + 14px);
-  }
+  .nav.is-open{display:flex;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- Smoke layer -->
-<canvas id="smoke"></canvas>
-
 <header class="topbar">
-  <a class="brand" href="#top" aria-label="Nach oben">
-    <span class="brand__logo">FF</span>
+  <a class="brand" href="#top">
+    <img src="images/logo.png" alt="Fashioned from Bone">
   </a>
 
-  <button class="nav-toggle" aria-label="Menü öffnen/schließen" aria-expanded="false">
+  <button class="nav-toggle">
     <span></span><span></span><span></span>
   </button>
 
-  <nav class="nav" aria-label="Navigation">
-    <a href="#termine" data-scroll>Termine</a>
-    <a href="#media" data-scroll>Media</a>
+  <nav class="nav">
+    <a href="#termine">Termine</a>
+    <a href="#media">Media</a>
   </nav>
 </header>
 
 <main id="top" class="page">
-  <section class="section hero" aria-label="Start">
-    <div class="section__inner">
-      <h1>FFBONE</h1>
-      <p>Platzhalter – später hier Artwork/Bild einsetzen.</p>
-    </div>
-  </section>
 
-  <section id="termine" class="section termine">
-    <div class="section__inner">
-      <h2>Termine</h2>
-      <p>Platzhalter für deine Tour Dates. (Später Tabelle/Widget.)</p>
-    </div>
-  </section>
+<section class="section hero" id="hero">
+  <div class="hero__bg is-visible"></div>
+  <div class="hero__bg"></div>
+  <div class="hero__overlay"></div>
+</section>
 
-  <section id="media" class="section media">
-    <div class="section__inner">
-      <h2>Media</h2>
-      <p>Platzhalter für Fotos/Videos/Presskit.</p>
-    </div>
-  </section>
+<section id="termine" class="section termine">
+  <div class="section__inner">
+    <h2>Termine</h2>
+    <ul class="showlist">
+      <li>
+        <span class="show-date">24.01.2026</span>
+        <span>MK BAR – Luxemburg</span>
+      </li>
+    </ul>
 
-  <section id="kontakt" class="section kontakt">
-    <div class="section__inner">
-      <h2>Kontakt</h2>
-      <p>Booking: <a href="mailto:booking@ffbone.de">booking@ffbone.de</a></p>
-    </div>
-  </section>
+    <details>
+      <summary>Vergangene Shows</summary>
+      <ul class="showlist">
+        <li>
+          <span class="show-date">15.11.2025</span>
+          <span>Rock meets Benefiz – Lebach (Saarland)</span>
+        </li>
+      </ul>
+    </details>
+  </div>
+</section>
 
-  <section id="impressum" class="section impressum">
-    <div class="section__inner">
-      <h2>Impressum</h2>
-      <p>Platzhalter – Impressum/Datenschutz später einfügen.</p>
+<section id="media" class="section media">
+  <div class="section__inner">
+    <h2>Media</h2>
+    <div class="video">
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/gzkT6uHIO7o" allowfullscreen></iframe>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<section id="kontakt" class="section kontakt">
+  <div class="section__inner">
+    <h2>Kontakt</h2>
+    <p><a href="mailto:fashionedfrombone@gmail.com">fashionedfrombone@gmail.com</a></p>
+  </div>
+</section>
+
+<section id="impressum" class="section impressum">
+  <div class="section__inner">
+    <h2>Impressum</h2>
+    <p>
+      Verantwortlich für den Inhalt:<br><br>
+      Rafael Piechowiak<br>
+      Kossmannstraße 28<br>
+      66119 Saarbrücken<br>
+      <a href="mailto:piechowiak89@gmail.com">piechowiak89@gmail.com</a>
+    </p>
+  </div>
+</section>
+
 </main>
 
 <footer class="bottombar">
-  <div class="social" aria-label="Social Links">
-    <a href="#" aria-label="Instagram" class="icon">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5zM18 7.2a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
+  <div class="social">
+    <a class="icon" href="https://www.instagram.com/fashionedfrombone/" target="_blank" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg>
     </a>
-    <a href="#" aria-label="YouTube" class="icon">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.7 4.6 12 4.6 12 4.6s-5.7 0-7.5.5A3 3 0 0 0 2.4 7.2 31.5 31.5 0 0 0 2 12a31.5 31.5 0 0 0 .4 4.8 3 3 0 0 0 2.1 2.1c1.8.5 7.5.5 7.5.5s5.7 0 7.5-.5a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 22 12a31.5 31.5 0 0 0-.4-4.8zM10 15.5V8.5L16 12l-6 3.5z"/></svg>
+    <a class="icon" href="https://www.tiktok.com/@fashionedfrombone" target="_blank" aria-label="TikTok">
+      <svg viewBox="0 0 24 24"><path d="M16 3c.3 2.2 1.8 3.9 4 4v3c-1.6.1-3.1-.4-4.2-1.3V16a6 6 0 1 1-6-6c.4 0 .8 0 1.2.1V13a3 3 0 1 0 2.8 3V3h2z"/></svg>
+    </a>
+    <a class="icon" href="https://www.youtube.com/@fashionedfrombone" target="_blank" aria-label="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M10 15.5V8.5L16 12l-6 3.5z"/></svg>
+    </a>
+    <a class="icon" href="https://fashionedfrombone.bandcamp.com/" target="_blank" aria-label="Bandcamp">
+      <svg viewBox="0 0 24 24"><path d="M16.9 6H9.2L7.1 18h7.7z"/></svg>
     </a>
   </div>
 
   <div class="footer-links">
-    <a href="#kontakt" data-scroll>Kontakt</a>
-    <a href="#impressum" data-scroll>Impressum</a>
+    <a href="#kontakt">Kontakt</a>
+    <a href="#impressum">Impressum</a>
   </div>
 </footer>
 
-<!-- Go To Top Button -->
-<button class="gotop" type="button" aria-label="Nach oben">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5l7 7-1.4 1.4L13 8.8V20h-2V8.8L6.4 13.4 5 12l7-7z"/></svg>
-</button>
-
 <script>
-(() => {
-  const btn = document.querySelector(".nav-toggle");
-  const nav = document.querySelector(".nav");
-  const goTop = document.querySelector(".gotop");
+/* MOBILE NAV */
+document.querySelector(".nav-toggle").onclick=()=>{
+  document.querySelector(".nav").classList.toggle("is-open");
+};
 
-  // Mobile menu toggle (fullscreen overlay)
-  if (btn && nav) {
-    btn.addEventListener("click", () => {
-      const open = nav.classList.toggle("is-open");
-      btn.setAttribute("aria-expanded", String(open));
-      document.body.style.overflow = open ? "hidden" : "";
-    });
-  }
+/* HERO SLIDER PNG */
+const images=[
+  "images/11.png","images/111.png","images/12.png","images/13.png",
+  "images/15.png","images/16.png","images/17.png","images/18.png",
+  "images/2.png","images/6.png","images/unbenannt.png"
+];
+const hero=document.getElementById("hero");
+const bgs=hero.querySelectorAll(".hero__bg");
+let idx=0,show=0;
 
-  // Close menu on ESC
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && nav?.classList.contains("is-open")) {
-      nav.classList.remove("is-open");
-      btn?.setAttribute("aria-expanded", "false");
-      document.body.style.overflow = "";
-    }
-  });
-
-  // Smooth scroll (internal)
-  const smoothLinks = document.querySelectorAll('a[data-scroll], a[href="#top"]');
-  smoothLinks.forEach((a) => {
-    a.addEventListener("click", (e) => {
-      const href = a.getAttribute("href");
-      if (!href || !href.startsWith("#")) return;
-
-      const target = document.querySelector(href);
-      if (!target) return;
-
-      e.preventDefault();
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-
-      // close mobile nav after click
-      if (nav?.classList.contains("is-open")) {
-        nav.classList.remove("is-open");
-        btn?.setAttribute("aria-expanded", "false");
-        document.body.style.overflow = "";
-      }
-    });
-  });
-
-  // Go to top button behavior
-  const toggleGoTop = () => {
-    const y = window.scrollY || document.documentElement.scrollTop;
-    if (y > 300) goTop.classList.add("is-visible");
-    else goTop.classList.remove("is-visible");
-  };
-  window.addEventListener("scroll", toggleGoTop, { passive: true });
-  toggleGoTop();
-
-  goTop.addEventListener("click", () => {
-    document.querySelector("#top").scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-
-  // Active link highlight (sections in nav)
-  const links = [...document.querySelectorAll('.nav a[href^="#"]')];
-  const sections = [...document.querySelectorAll("main section[id]")];
-
-  if (links.length && sections.length) {
-    const obs = new IntersectionObserver((entries) => {
-      const visible = entries
-        .filter(x => x.isIntersecting)
-        .sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-
-      links.forEach(l => l.classList.remove("is-active"));
-      const match = document.querySelector('.nav a[href="#' + visible.target.id + '"]');
-      if (match) match.classList.add("is-active");
-    }, { threshold: 0.6 });
-
-    sections.forEach(s => obs.observe(s));
-  }
-
-  /* ===============================
-     MOUSE SMOKE (Canvas Particles)
-     - DSGVO-safe, no libs
-     - Disabled on mobile
-  =============================== */
-  if (window.innerWidth < 860) return;
-
-  const canvas = document.getElementById("smoke");
-  const ctx = canvas.getContext("2d");
-
-  let w, h;
-  const resize = () => {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  };
-  window.addEventListener("resize", resize);
-  resize();
-
-  const particles = [];
-  const MAX = 140;
-
-  const spawn = (x, y) => {
-    for (let i = 0; i < 3; i++) {
-      particles.push({
-        x,
-        y,
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: (Math.random() - 0.5) * 0.8 - 0.2,  // leicht nach oben
-        life: 1,
-        size: 18 + Math.random() * 26
-      });
-    }
-  };
-
-  window.addEventListener("mousemove", (e) => spawn(e.clientX, e.clientY));
-
-  const tick = () => {
-    ctx.clearRect(0, 0, w, h);
-
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-
-      p.x += p.vx;
-      p.y += p.vy;
-      p.life -= 0.016;
-      p.size += 0.08; // smoke expands
-
-      if (p.life <= 0) {
-        particles.splice(i, 1);
-        continue;
-      }
-
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(210,210,210,${p.life * 0.10})`;
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    while (particles.length > MAX) particles.shift();
-    requestAnimationFrame(tick);
-  };
-
-  tick();
-})();
+bgs[0].style.backgroundImage=`url(${images[0]})`;
+setInterval(()=>{
+  idx=(idx+1)%images.length;
+  show=1-show;
+  bgs[show].style.backgroundImage=`url(${images[idx]})`;
+  bgs[show].classList.add("is-visible");
+  bgs[1-show].classList.remove("is-visible");
+},6000);
 </script>
 
 </body>
