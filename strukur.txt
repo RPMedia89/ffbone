@@ -1,0 +1,21 @@
+ffbone/                    # Hauptordner / GitHub-Repo
+│
+├── index.html             # Startseite ✅
+├── favicon.ico
+├── README.md
+├── .gitignore
+│
+├── assets/
+│   ├── css/
+│   │   └── main.css       # Zentrales Stylesheet
+│   │
+│   └── js/
+│       └── main.js        # Zentrales Script
+│
+├── images/                # Bilder (Band, Live, Cover etc.)
+│
+└── pages/
+    ├── impressum.html
+    ├── kontakt.html
+    ├── live.html
+    └── media.html
