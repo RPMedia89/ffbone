@@ -46,19 +46,19 @@ a:hover, a:focus-visible{ text-decoration:underline; outline:none; }
   text-decoration:none;
   color:inherit;
 }
-
-/* Logo groß am Anfang */
 .brand img{
-  height:149px;
+  height:149px; /* groß am Anfang */
   width:auto;
   display:block;
   transition: height .25s ease, transform .25s ease, opacity .25s ease;
   transform-origin: top left;
 }
 
-/* Wenn gescrollt: Logo klein, header-geeignet */
+/* beim Scrollen: kleiner & blendet aus */
 body.is-scrolled .brand img{
-  height:58px; /* passend in Header */
+  height:58px;
+  opacity:0;
+  transform:translateY(-10px);
 }
 
 /* NAV (Desktop) */
@@ -200,13 +200,12 @@ body.is-scrolled .brand img{
 }
 .hero__bg.is-visible{opacity:1;}
 
-/* GEILER OVERLAY: Filmgrain + Vignette + Light leaks + Lines */
+/* Overlay */
 .hero__overlay{
   position:absolute;
   inset:0;
   z-index:1;
   pointer-events:none;
-
   background:
     radial-gradient(1200px 700px at 50% 40%, rgba(0,0,0,.15), rgba(0,0,0,.85)),
     radial-gradient(700px 500px at 18% 25%, rgba(140, 80, 255, .12), transparent 60%),
@@ -220,8 +219,6 @@ body.is-scrolled .brand img{
       rgba(0,0,0,0) 6px
     );
 }
-
-/* film grain layer */
 .hero__grain{
   position:absolute;
   inset:0;
@@ -275,6 +272,34 @@ summary{
   border:0;
 }
 
+/* ================= BACK TO TOP ================= */
+.gotop{
+  position:fixed;
+  right:var(--pad-x);
+  bottom:calc(var(--bottom-h) + 16px);
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  opacity:0;
+  transform:translateY(10px);
+  pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+  z-index:120;
+}
+.gotop svg{width:18px;height:18px;fill:#fff;}
+.gotop.is-visible{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.gotop:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+
 /* ================= MOBILE ================= */
 @media(max-width:860px){
   :root{--top-h:90px;--bottom-h:110px;--pad-x:18px;}
@@ -293,13 +318,9 @@ summary{
     z-index:110;
   }
   .nav.is-open{display:flex;}
-  .nav a{
-    font-size:18px;
-    letter-spacing:.14em;
-  }
+  .nav a{ font-size:18px; letter-spacing:.14em; }
   .nav-close{display:grid;place-items:center;}
 
-  /* Footer mobile: Links nebeneinander, Social darunter */
   .bottombar{
     align-items:flex-start;
     flex-direction:column;
@@ -310,17 +331,9 @@ summary{
     justify-content:space-between;
     gap:0;
   }
-  .footer-links a{
-    flex:1;
-    text-align:left;
-  }
-  .footer-links a:last-child{
-    text-align:right;
-  }
-  .social{
-    width:100%;
-    justify-content:flex-start;
-  }
+  .footer-links a{ flex:1; text-align:left; }
+  .footer-links a:last-child{ text-align:right; }
+  .social{ width:100%; justify-content:flex-start; }
 }
 </style>
 </head>
@@ -440,11 +453,16 @@ summary{
   </div>
 </footer>
 
+<button class="gotop" type="button" aria-label="Nach oben">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5l7 7-1.4 1.4L13 8.8V20h-2V8.8L6.4 13.4 5 12z"/></svg>
+</button>
+
 <script>
 (() => {
   const btn = document.querySelector(".nav-toggle");
   const nav = document.querySelector(".nav");
   const closeBtn = document.querySelector(".nav-close");
+  const goTop = document.querySelector(".gotop");
 
   const openNav = () => {
     nav.classList.add("is-open");
@@ -463,19 +481,17 @@ summary{
   });
   closeBtn.addEventListener("click", closeNav);
 
-  // close when clicking a nav link (mobile overlay)
   nav.querySelectorAll("a[data-scroll]").forEach(a => {
     a.addEventListener("click", () => {
       if (window.matchMedia("(max-width: 860px)").matches) closeNav();
     });
   });
 
-  // close on ESC
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeNav();
   });
 
-  // Smooth scroll (internal)
+  // Smooth scroll
   document.querySelectorAll('a[data-scroll], a[href="#top"]').forEach((a) => {
     a.addEventListener("click", (e) => {
       const href = a.getAttribute("href");
@@ -487,13 +503,19 @@ summary{
     });
   });
 
-  // Logo shrink on scroll
-  const updateLogo = () => {
+  // Logo fade + Back-to-top visibility
+  const updateUI = () => {
     const y = window.scrollY || document.documentElement.scrollTop;
-    document.body.classList.toggle("is-scrolled", y > 20);
+    document.body.classList.toggle("is-scrolled", y > 120);
+    goTop.classList.toggle("is-visible", y > 400);
   };
-  window.addEventListener("scroll", updateLogo, { passive:true });
-  updateLogo();
+  window.addEventListener("scroll", updateUI, { passive:true });
+  updateUI();
+
+  // Back to top click
+  goTop.addEventListener("click", () => {
+    document.querySelector("#top").scrollIntoView({ behavior:"smooth" });
+  });
 
   /* HERO SLIDER PNG (Crossfade) */
   const images=[
@@ -505,7 +527,6 @@ summary{
   const bgs=hero.querySelectorAll(".hero__bg");
   let idx=0, show=0;
 
-  // preload
   images.forEach(src => { const im=new Image(); im.src=src; });
 
   bgs[0].style.backgroundImage=`url("${images[0]}")`;
