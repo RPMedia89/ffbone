@@ -468,6 +468,13 @@ summary{
   font-size:12px;
 }
 
+.contact-submit:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+  transform:none;
+  background:rgba(255,255,255,.06);
+  border-color:rgba(255,255,255,.14);
+}
 
 
 
@@ -568,13 +575,14 @@ summary{
         <label for="c_message">Nachricht (Pflicht)</label>
       </div>
 
-      <button class="contact-submit" type="submit">
-        Nachricht senden
-      </button>
+<button class="contact-submit" id="contactSubmit" type="submit" disabled>
+  Nachricht senden*
+</button>
+
 
       <p class="contact-note">
         <p class="contact-note">
-  Beim Absenden wird eine E-Mail gesendet. Die Website speichert keine Formulardaten.
+  * Beim Absenden wird eine E-Mail gesendet. Die Website speichert keine Formulardaten.
 </p>
 
       </p>
@@ -726,10 +734,84 @@ Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unt
     bgs[1-show].classList.remove("is-visible");
   },4000);
 })();
+
+  // CONTACT FORM -> mailto (mit Validation + disabled Button)
+  const form = document.getElementById("contactForm");
+  const submitBtn = document.getElementById("contactSubmit");
+
+  const emailEl = document.getElementById("c_email");
+  const subjectEl = document.getElementById("c_subject");
+  const messageEl = document.getElementById("c_message");
+  const nameEl = document.getElementById("c_name");
+
+  const isValidEmail = (v) => {
+    // pragmatisch: muss 1x @ haben + Domain-Teil mit Punkt, keine Leerzeichen
+    if (!v) return false;
+    if (/\s/.test(v)) return false;
+    const parts = v.split("@");
+    if (parts.length !== 2) return false;
+    if (!parts[0] || !parts[1]) return false;
+    if (!parts[1].includes(".")) return false;
+    if (parts[1].startsWith(".") || parts[1].endsWith(".")) return false;
+    return true;
+  };
+
+  const updateSubmitState = () => {
+    const subject = (subjectEl.value || "").trim();
+    const email = (emailEl.value || "").trim();
+    const message = (messageEl.value || "").trim();
+
+    const ok = !!subject && !!message && isValidEmail(email);
+    if (submitBtn) submitBtn.disabled = !ok;
+
+    // optional: native UI-Hinweis im Feld (ohne alert)
+    emailEl.setCustomValidity(isValidEmail(email) || email === "" ? "" : "Bitte eine gültige E-Mail-Adresse eingeben.");
+  };
+
+  if (form) {
+    ["input","blur","change","keyup"].forEach(evt => {
+      form.addEventListener(evt, updateSubmitState, true);
+    });
+    updateSubmitState();
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      updateSubmitState();
+      if (submitBtn && submitBtn.disabled) {
+        // zeigt Browser-Hinweise an (wenn möglich)
+        form.reportValidity?.();
+        return;
+      }
+
+      const name = (nameEl.value || "").trim();
+      const subject = (subjectEl.value || "").trim();
+      const email = (emailEl.value || "").trim();
+      const message = (messageEl.value || "").trim();
+
+      const to = "fashionedfrombone@gmail.com";
+      const bodyLines = [
+        message,
+        "",
+        "— — —",
+        `Name: ${name || "-"}`,
+        `E-Mail: ${email}`
+      ];
+
+      const mailto =
+        `mailto:${encodeURIComponent(to)}` +
+        `?subject=${encodeURIComponent(subject)}` +
+        `&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+
+      window.location.href = mailto;
+    });
+  }
+
+  
 </script>
 
 </body>
 </html>
+
 
 
 
