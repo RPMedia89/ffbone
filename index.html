@@ -476,6 +476,22 @@ summary{
   border-color:rgba(255,255,255,.14);
 }
 
+.contact-success{
+  margin-top:22px;
+  padding:22px;
+  border-radius:16px;
+  border:1px solid rgba(120,255,180,.35);
+  background:rgba(120,255,180,.08);
+  color:#eafff2;
+}
+
+.contact-success h3{
+  margin:0 0 6px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:16px;
+}
 
 
   
@@ -578,6 +594,10 @@ summary{
 <button class="contact-submit" id="contactSubmit" type="submit" disabled>
   Nachricht senden*
 </button>
+<div class="contact-success" hidden>
+  <h3>Danke für Ihre Anfrage!</h3>
+  <p>Ihre Nachricht wurde übermittelt. Wir melden uns so schnell wie möglich.</p>
+</div>
 
 
       <p class="contact-note">
@@ -735,82 +755,65 @@ Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unt
   },4000);
 })();
 
-  // CONTACT FORM -> mailto (mit Validation + disabled Button)
-  const form = document.getElementById("contactForm");
-  const submitBtn = document.getElementById("contactSubmit");
+// CONTACT FORM – clientseitig, ohne Mail-Client
+const form = document.getElementById("contactForm");
+const submitBtn = document.getElementById("contactSubmit");
+const successBox = form?.querySelector(".contact-success");
 
-  const emailEl = document.getElementById("c_email");
-  const subjectEl = document.getElementById("c_subject");
-  const messageEl = document.getElementById("c_message");
-  const nameEl = document.getElementById("c_name");
+const emailEl = document.getElementById("c_email");
+const subjectEl = document.getElementById("c_subject");
+const messageEl = document.getElementById("c_message");
 
-  const isValidEmail = (v) => {
-    // pragmatisch: muss 1x @ haben + Domain-Teil mit Punkt, keine Leerzeichen
-    if (!v) return false;
-    if (/\s/.test(v)) return false;
-    const parts = v.split("@");
-    if (parts.length !== 2) return false;
-    if (!parts[0] || !parts[1]) return false;
-    if (!parts[1].includes(".")) return false;
-    if (parts[1].startsWith(".") || parts[1].endsWith(".")) return false;
-    return true;
-  };
+const isValidEmail = (v) => {
+  if (!v) return false;
+  if (/\s/.test(v)) return false;
+  const parts = v.split("@");
+  if (parts.length !== 2) return false;
+  if (!parts[1].includes(".")) return false;
+  return true;
+};
 
-  const updateSubmitState = () => {
-    const subject = (subjectEl.value || "").trim();
-    const email = (emailEl.value || "").trim();
-    const message = (messageEl.value || "").trim();
+const updateSubmitState = () => {
+  const ok =
+    subjectEl.value.trim() &&
+    messageEl.value.trim() &&
+    isValidEmail(emailEl.value.trim());
 
-    const ok = !!subject && !!message && isValidEmail(email);
-    if (submitBtn) submitBtn.disabled = !ok;
+  submitBtn.disabled = !ok;
+};
 
-    // optional: native UI-Hinweis im Feld (ohne alert)
-    emailEl.setCustomValidity(isValidEmail(email) || email === "" ? "" : "Bitte eine gültige E-Mail-Adresse eingeben.");
-  };
+if (form) {
+  ["input","change","keyup","blur"].forEach(evt => {
+    form.addEventListener(evt, updateSubmitState, true);
+  });
+  updateSubmitState();
 
-  if (form) {
-    ["input","blur","change","keyup"].forEach(evt => {
-      form.addEventListener(evt, updateSubmitState, true);
-    });
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
     updateSubmitState();
+    if (submitBtn.disabled) return;
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      updateSubmitState();
-      if (submitBtn && submitBtn.disabled) {
-        // zeigt Browser-Hinweise an (wenn möglich)
-        form.reportValidity?.();
-        return;
+    // ✨ hier KEIN Versand – bewusst clientseitig
+    form.reset();
+    submitBtn.disabled = true;
+
+    // Formular ausblenden, Danke anzeigen
+    [...form.children].forEach(el => {
+      if (!el.classList.contains("contact-success")) {
+        el.style.display = "none";
       }
-
-      const name = (nameEl.value || "").trim();
-      const subject = (subjectEl.value || "").trim();
-      const email = (emailEl.value || "").trim();
-      const message = (messageEl.value || "").trim();
-
-      const to = "piechowiak89@gmail.com";
-      const bodyLines = [
-        message,
-        "",
-        "— — —",
-        `Name: ${name || "-"}`,
-        `E-Mail: ${email}`
-      ];
-
-      const mailto =
-        `mailto:${encodeURIComponent(to)}` +
-        `?subject=${encodeURIComponent(subject)}` +
-        `&body=${encodeURIComponent(bodyLines.join("\n"))}`;
-
-      window.location.href = mailto;
     });
-  }
+    successBox.hidden = false;
+  });
+}
+
 
   
 </script>
 
 </body>
 </html>
+
 
 
 
