@@ -47,7 +47,7 @@ a:hover, a:focus-visible{ text-decoration:underline; outline:none; }
   color:inherit;
 }
 .brand img{
-  height:129px; /* groß am Anfang */
+  height:120px; /* groß am Anfang */
   width:auto;
   display:block;
   transition: height .6s ease, transform .6s ease, opacity .6s ease;
@@ -538,10 +538,11 @@ summary{
     bgs[show].style.backgroundImage=`url("${images[idx]}")`;
     bgs[show].classList.add("is-visible");
     bgs[1-show].classList.remove("is-visible");
-  },1000);
+  },4000);
 })();
 </script>
 
 </body>
 </html>
+
 
