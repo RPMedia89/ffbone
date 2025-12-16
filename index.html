@@ -348,10 +348,116 @@ summary{
   .contact-form{ max-width:100%; }
   .field input, .field textarea{ border-radius:14px; }
   .contact-submit{ border-radius:14px; }
+
+  
   
 }
 
   .impressum{font-size: 12px;}
+
+
+.contact-form{ margin-top:22px; max-width:720px; }
+.field{ position:relative; margin:14px 0; }
+
+.field input, .field textarea{
+  width:100%;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  padding:18px 16px 14px;
+  font:inherit;
+  outline:none;
+  transition:border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+.field textarea{ resize:vertical; min-height:160px; }
+.field input::placeholder, .field textarea::placeholder{ color:transparent; }
+
+.field label{
+  position:absolute;
+  left:14px;
+  top:16px;
+  padding:0 8px;
+  color:rgba(255,255,255,.72);
+  pointer-events:none;
+  transform-origin:left top;
+  transition:transform .16s ease, top .16s ease, color .16s ease, background .16s ease;
+}
+
+.field input:focus, .field textarea:focus{
+  border-color:rgba(255,255,255,.45);
+  background:rgba(255,255,255,.08);
+  box-shadow:0 0 0 3px rgba(255,255,255,.08);
+}
+
+.field input:focus + label,
+.field textarea:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field textarea:not(:placeholder-shown) + label{
+  top:-10px;
+  transform:scale(.88);
+  color:rgba(255,255,255,.92);
+  background:rgba(0,0,0,.75);
+  border-radius:999px;
+}
+
+.contact-submit{
+  margin-top:10px;
+  width:100%;
+  padding:14px 16px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.10);
+  color:#fff;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  cursor:pointer;
+  transition:transform .12s ease, background .2s ease, border-color .2s ease;
+}
+.contact-submit:hover{
+  background:rgba(255,255,255,.14);
+  border-color:rgba(255,255,255,.35);
+  transform:translateY(-1px);
+}
+.contact-submit:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+
+.contact-note, .contact-fallback{
+  margin-top:12px;
+  font-size:14px;
+  color:rgba(255,255,255,.75);
+  line-height:1.4;
+}
+.contact-fallback a{ text-decoration:underline; }
+
+.contact-success{
+  margin-top:22px;
+  padding:22px;
+  border-radius:16px;
+  border:1px solid rgba(120,255,180,.35);
+  background:rgba(120,255,180,.08);
+  color:#eafff2;
+}
+.contact-success h3{
+  margin:0 0 6px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:16px;
+}
+
+.hp{
+  position:absolute !important;
+  left:-9999px !important;
+  width:1px; height:1px;
+  overflow:hidden;
+}
+
+
+
+
+
+  
  
 </style>
 </head>
@@ -503,6 +609,22 @@ Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unt
 <p>Diese Website verwendet keine Tracking-Cookies und keine externen Dienste.
 Es werden keine personenbezogenen Daten durch Cookies zu Analyse- oder Marketingzwecken verarbeitet.</p> 
 <p> Hosting der Website über GitHub Pages, ausgeliefert über ein CDN (Fastly) zur sicheren und effizienten Bereitstellung der Inhalte.</p>
+
+      <h2>Kontaktaufnahme per Formular</h2>
+<p>Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Formular inklusive der von Ihnen dort angegebenen Kontaktdaten zum Zweck der Bearbeitung der Anfrage und für den Fall von Anschlussfragen verarbeitet.</p>
+
+<p>Die Übermittlung der Formulardaten erfolgt über den Dienst Formspree (Formspree Inc., USA). Die Daten werden ausschließlich zur Weiterleitung der Nachricht an uns verwendet und nicht für Werbezwecke eingesetzt.</p>
+
+<p>Rechtsgrundlage für die Verarbeitung der Daten ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung Ihrer Anfrage).</p>
+
+<p>Weitere Informationen zum Datenschutz bei Formspree finden Sie unter:</p>
+<p>
+  Weitere Informationen zum Datenschutz bei Formspree finden Sie unter:
+  <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">
+    https://formspree.io/legal/privacy-policy
+  </a>
+</p>
+
     
     
     </div>
@@ -630,6 +752,7 @@ Es werden keine personenbezogenen Daten durch Cookies zu Analyse- oder Marketing
 
 </body>
 </html>
+
 
 
 
