@@ -347,7 +347,7 @@ summary{
   overflow:hidden;
 }
 
-/* ================= IMPRESSUM COLLAPSE ================= */
+/* ================= IMPRESSUM ACCORDION ================= */
 .impressum details.impressum-details{
   margin-top:18px;
   border:1px solid rgba(255,255,255,.15);
@@ -358,8 +358,25 @@ summary{
 .impressum details.impressum-details summary{
   list-style:none;
   padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
 }
 .impressum details.impressum-details summary::-webkit-details-marker{ display:none; }
+.impressum details.impressum-details summary span{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+.impressum details.impressum-details summary .arrow{
+  width:18px;height:18px;
+  display:inline-block;
+  transition:transform .18s ease;
+}
+.impressum details.impressum-details[open] summary .arrow{
+  transform:rotate(180deg);
+}
 .impressum details.impressum-details .impressum-content{
   padding:0 16px 16px;
 }
@@ -460,7 +477,6 @@ summary{
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg>
     </button>
     <a href="#termine" data-scroll>Termine</a>
-    <!-- nur mobil -->
     <a href="#kontakt" data-scroll class="nav__mobile-only">Kontakt</a>
   </nav>
 </header>
@@ -555,7 +571,13 @@ summary{
       <h2>Impressum & Datenschutz</h2>
 
       <details class="impressum-details" id="impressumDetails">
-        <summary>Impressum & Datenschutzerklärung anzeigen</summary>
+        <summary>
+          <span class="label-closed">Impressum & Datenschutzerklärung</span>
+          <span class="label-open" style="display:none;">Schließen</span>
+          <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#fff" d="M12 15.5 5 8.5l1.4-1.4L12 12.7l5.6-5.6L19 8.5z"/>
+          </svg>
+        </summary>
 
         <div class="impressum-content">
 
@@ -680,9 +702,22 @@ summary{
     if (e.key === "Escape") closeNav();
   });
 
+  const setImpressumSummaryLabels = () => {
+    if (!impressumDetails) return;
+    const summary = impressumDetails.querySelector("summary");
+    if (!summary) return;
+    const closed = summary.querySelector(".label-closed");
+    const open = summary.querySelector(".label-open");
+    const isOpen = impressumDetails.open === true;
+
+    if (closed) closed.style.display = isOpen ? "none" : "inline";
+    if (open) open.style.display = isOpen ? "inline" : "none";
+  };
+
   const openImpressumIfNeeded = (hash) => {
     if (hash === "#impressum" && impressumDetails) {
       impressumDetails.open = true;
+      setImpressumSummaryLabels();
     }
   };
 
@@ -698,15 +733,19 @@ summary{
       openImpressumIfNeeded(href);
 
       target.scrollIntoView({ behavior: "smooth", block: "start" });
-
-      // URL-Hash setzen (damit "Zurück" korrekt funktioniert)
       history.pushState(null, "", href);
     });
   });
 
-  // Falls Seite direkt mit #impressum geladen wird
+  // Direkt mit #impressum laden
   openImpressumIfNeeded(location.hash);
   window.addEventListener("hashchange", () => openImpressumIfNeeded(location.hash));
+
+  // Labels + Arrow auch bei manuellen Klicks auf das details
+  if (impressumDetails) {
+    impressumDetails.addEventListener("toggle", setImpressumSummaryLabels);
+    setImpressumSummaryLabels();
+  }
 
   // Logo fade + Back-to-top visibility
   const updateUI = () => {
@@ -746,13 +785,12 @@ summary{
     });
     updateSubmitState();
 
-    // AJAX submit -> keine Formspree-ThankYou-Seite
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       updateSubmitState();
       if (submitBtn.disabled) return;
 
-      // Honeypot check (wenn Bot: einfach "tun als ob")
+      // Honeypot check (Bot -> quietly ignore)
       const hp = form.querySelector('input[name="website"]');
       if (hp && hp.value.trim() !== "") return;
 
