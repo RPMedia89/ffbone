@@ -42,7 +42,6 @@ a:hover, a:focus-visible{ text-decoration:underline; outline:none; }
 .brand{
   display:inline-flex;
   align-items:flex-start;
-  text-decoration:none;
   color:inherit;
 }
 .brand img{
@@ -52,8 +51,6 @@ a:hover, a:focus-visible{ text-decoration:underline; outline:none; }
   transition: height .6s ease, transform .6s ease, opacity .6s ease;
   transform-origin: top left;
 }
-
-/* beim Scrollen: blendet aus */
 body.is-scrolled .brand img{
   height:58px;
   opacity:0;
@@ -99,7 +96,7 @@ body.is-scrolled .brand img{
   border-radius:999px;
 }
 .nav-close{
-  display:none; /* only mobile overlay */
+  display:none;
   position:absolute;
   top:18px;
   right:18px;
@@ -113,6 +110,8 @@ body.is-scrolled .brand img{
 }
 .nav-close:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
 .nav-close svg{ width:18px; height:18px; fill:#fff; }
+
+.nav__mobile-only{ display:none; }
 
 /* ================= FOOTER ================= */
 .bottombar{
@@ -219,8 +218,7 @@ body.is-scrolled .brand img{
 /* ================= SECTIONS ================= */
 .termine{background:#0b0b12;}
 .kontakt{background:#0b120d;}
-.impressum{background:#0a0a0a;}
-.impressum{font-size:12px;}
+.impressum{background:#0a0a0a;font-size:12px;}
 
 /* ================= SHOWLIST ================= */
 .showlist{list-style:none;padding:0;margin-top:18px;}
@@ -231,7 +229,6 @@ body.is-scrolled .brand img{
   border-bottom:1px solid rgba(255,255,255,.15);
 }
 .show-date{min-width:130px;font-weight:900;letter-spacing:.04em;}
-
 details{margin-top:18px;}
 summary{
   cursor:pointer;
@@ -316,27 +313,25 @@ summary{
   border-color:rgba(255,255,255,.14);
 }
 
-.contact-note, .contact-fallback{
-  margin-top:12px;
-  font-size:14px;
-  color:rgba(255,255,255,.75);
-  line-height:1.4;
-}
-.contact-fallback a{ text-decoration:underline; }
-
-/* Danke-Box: nur sichtbar nach erfolgreichem Redirect (#kontakt-danke) */
-#kontakt-danke{ display:none; }
-#kontakt-danke:target{ display:block; }
-
-.contact-success{
+/* Success + Error */
+.contact-success, .contact-error{
   margin-top:22px;
   padding:22px;
   border-radius:16px;
+}
+.contact-success{
   border:1px solid rgba(120,255,180,.35);
   background:rgba(120,255,180,.08);
   color:#eafff2;
+  display:none;
 }
-.contact-success h3{
+.contact-error{
+  border:1px solid rgba(255,120,120,.35);
+  background:rgba(255,120,120,.08);
+  color:#ffecec;
+  display:none;
+}
+.contact-success h3, .contact-error h3{
   margin:0 0 6px;
   font-weight:900;
   text-transform:uppercase;
@@ -350,6 +345,26 @@ summary{
   left:-9999px !important;
   width:1px; height:1px;
   overflow:hidden;
+}
+
+/* ================= IMPRESSUM COLLAPSE ================= */
+.impressum details.impressum-details{
+  margin-top:18px;
+  border:1px solid rgba(255,255,255,.15);
+  border-radius:16px;
+  background:rgba(255,255,255,.04);
+  overflow:hidden;
+}
+.impressum details.impressum-details summary{
+  list-style:none;
+  padding:14px 16px;
+}
+.impressum details.impressum-details summary::-webkit-details-marker{ display:none; }
+.impressum details.impressum-details .impressum-content{
+  padding:0 16px 16px;
+}
+.impressum details.impressum-details[open] summary{
+  border-bottom:1px solid rgba(255,255,255,.12);
 }
 
 /* ================= BACK TO TOP ================= */
@@ -401,6 +416,8 @@ summary{
   .nav a{ font-size:18px; letter-spacing:.14em; }
   .nav-close{display:grid;place-items:center;}
 
+  .nav__mobile-only{ display:inline-block; }
+
   .bottombar{
     align-items:center;
     flex-direction:column;
@@ -422,7 +439,7 @@ summary{
   }
 
   .contact-form{ max-width:100%; }
-  .field input, .field textarea, .contact-submit, .contact-success{ border-radius:14px; }
+  .field input, .field textarea, .contact-submit, .contact-success, .contact-error, .impressum details.impressum-details{ border-radius:14px; }
 }
 </style>
 </head>
@@ -443,6 +460,8 @@ summary{
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg>
     </button>
     <a href="#termine" data-scroll>Termine</a>
+    <!-- nur mobil -->
+    <a href="#kontakt" data-scroll class="nav__mobile-only">Kontakt</a>
   </nav>
 </header>
 
@@ -482,8 +501,7 @@ summary{
     <div class="section__inner">
       <h2>Kontakt</h2>
 
-      <form class="contact-form"
-            id="contactForm"
+      <form class="contact-form" id="contactForm"
             action="https://formspree.io/f/xyzrqznz"
             method="POST">
 
@@ -514,93 +532,85 @@ summary{
         </div>
 
         <input type="hidden" name="_subject" value="Neue Nachricht über fashionedfrombone.de">
-        <input type="hidden" name="_next" value="/#kontakt-danke">
 
         <button class="contact-submit" id="contactSubmit" type="submit" disabled>
           Nachricht senden
         </button>
 
-        <p class="contact-note">
-          Ihre Angaben werden zur Bearbeitung Ihrer Anfrage verarbeitet und an
-          <strong>fashionedfrombone@gmail.com</strong> übermittelt.
-        </p>
+        <div class="contact-success" id="contactSuccess" role="status" aria-live="polite">
+          <h3>Danke für Ihre Anfrage!</h3>
+          <p>Ihre Nachricht wurde gesendet. Wir melden uns so schnell wie möglich.</p>
+        </div>
 
-        <p class="contact-fallback">
-          Falls das Formular nicht funktioniert:
-          <a href="mailto:fashionedfrombone@gmail.com">fashionedfrombone@gmail.com</a>
-        </p>
+        <div class="contact-error" id="contactError" role="status" aria-live="polite">
+          <h3>Das hat leider nicht geklappt.</h3>
+          <p>Bitte versuchen Sie es später erneut.</p>
+        </div>
       </form>
-
-      <div id="kontakt-danke" class="contact-success" tabindex="-1">
-        <h3>Danke für Ihre Anfrage!</h3>
-        <p>Ihre Nachricht wurde gesendet. Wir melden uns so schnell wie möglich.</p>
-      </div>
     </div>
   </section>
 
   <section id="impressum" class="section impressum">
     <div class="section__inner">
+      <h2>Impressum & Datenschutz</h2>
 
-      <h1>Impressum</h1>
-      <p>Angaben gemäß § 5 DDG</p>
+      <details class="impressum-details" id="impressumDetails">
+        <summary>Impressum & Datenschutzerklärung anzeigen</summary>
 
-      <p>
-        Rafael Piechowiak<br>
-        Koßmannstraße 28<br>
-        66119 Saarbrücken
-      </p>
+        <div class="impressum-content">
 
-      <p><strong>Vertreten durch:</strong><br>Rafael Piechowiak</p>
+          <h1>Impressum</h1>
+          <p>Angaben gemäß § 5 DDG</p>
 
-      <p><strong>Kontakt:</strong><br>
-        Telefon: 0163-214 6005<br>
-        E-Mail: <a href="mailto:piechowiak89@gmail.com">piechowiak89@gmail.com</a>
-      </p>
+          <p>
+            Rafael Piechowiak<br>
+            Koßmannstraße 28<br>
+            66119 Saarbrücken
+          </p>
 
-      <p><strong>Verbraucherstreitbeilegung / Universalschlichtungsstelle</strong><br>
-        Wir nehmen nicht an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teil und sind dazu auch nicht verpflichtet.
-      </p>
+          <p><strong>Vertreten durch:</strong><br>Rafael Piechowiak</p>
 
-      <p><strong>Haftungsausschluss:</strong><br><br>
-        <strong>Haftung für Inhalte</strong><br>
-        Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.<br><br>
-        <strong>Haftung für Links</strong><br>
-        Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.<br><br>
-        <strong>Urheberrecht</strong><br>
-        Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
-      </p>
+          <p><strong>Kontakt:</strong><br>
+            Telefon: 0163-214 6005<br>
+            E-Mail: <a href="mailto:piechowiak89@gmail.com">piechowiak89@gmail.com</a>
+          </p>
 
-      <p>
-        Erstellt mit <a href="https://impressum-generator.de" rel="dofollow">Impressum-Generator.de</a>,
-        dem Tool für Impressum und <a href="https://impressum-generator.de/datenschutz-generator" rel="dofollow">Datenschutz-Erklärung</a>.
-        Nach einer Vorlage der <a href="https://www.kanzlei-hasselbach.de/" rel="dofollow">Kanzlei Hasselbach</a>.
-      </p>
+          <p><strong>Verbraucherstreitbeilegung / Universalschlichtungsstelle</strong><br>
+            Wir nehmen nicht an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teil und sind dazu auch nicht verpflichtet.
+          </p>
 
-      <h1>Datenschutzerklärung</h1>
-      <p>
-        Diese Website verwendet keine Tracking-Cookies und keine externen Analyse- oder Marketingdienste.
-      </p>
-      <p>
-        Hosting der Website über GitHub Pages, ausgeliefert über ein CDN (Fastly) zur sicheren und effizienten Bereitstellung der Inhalte.
-      </p>
+          <p><strong>Haftungsausschluss:</strong><br><br>
+            <strong>Haftung für Inhalte</strong><br>
+            Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.<br><br>
+            <strong>Haftung für Links</strong><br>
+            Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.<br><br>
+            <strong>Urheberrecht</strong><br>
+            Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
+          </p>
 
-      <h2>Kontaktaufnahme per Formular</h2>
-      <p>
-        Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Formular inklusive der von Ihnen dort angegebenen Kontaktdaten zum Zweck der Bearbeitung der Anfrage und für den Fall von Anschlussfragen verarbeitet.
-      </p>
-      <p>
-        Die Übermittlung der Formulardaten erfolgt über den Dienst Formspree (Formspree Inc., USA). Die Daten werden ausschließlich zur Weiterleitung der Nachricht an uns verwendet und nicht für Werbezwecke eingesetzt.
-      </p>
-      <p>
-        Rechtsgrundlage für die Verarbeitung der Daten ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung Ihrer Anfrage).
-      </p>
-      <p>
-        Weitere Informationen zum Datenschutz bei Formspree finden Sie unter:
-        <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">
-          https://formspree.io/legal/privacy-policy
-        </a>
-      </p>
+          <p>
+            Erstellt mit <a href="https://impressum-generator.de" rel="dofollow">Impressum-Generator.de</a>,
+            dem Tool für Impressum und <a href="https://impressum-generator.de/datenschutz-generator" rel="dofollow">Datenschutz-Erklärung</a>.
+            Nach einer Vorlage der <a href="https://www.kanzlei-hasselbach.de/" rel="dofollow">Kanzlei Hasselbach</a>.
+          </p>
 
+          <h1>Datenschutzerklärung</h1>
+          <p>Diese Website verwendet keine Tracking-Cookies und keine externen Analyse- oder Marketingdienste.</p>
+          <p>Hosting der Website über GitHub Pages, ausgeliefert über ein CDN (Fastly) zur sicheren und effizienten Bereitstellung der Inhalte.</p>
+
+          <h2>Kontaktaufnahme per Formular</h2>
+          <p>Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Formular inklusive der von Ihnen dort angegebenen Kontaktdaten zum Zweck der Bearbeitung der Anfrage und für den Fall von Anschlussfragen verarbeitet.</p>
+          <p>Die Übermittlung der Formulardaten erfolgt über den Dienst Formspree (Formspree Inc., USA). Die Daten werden ausschließlich zur Weiterleitung der Nachricht an uns verwendet und nicht für Werbezwecke eingesetzt.</p>
+          <p>Rechtsgrundlage für die Verarbeitung der Daten ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung Ihrer Anfrage).</p>
+          <p>
+            Weitere Informationen zum Datenschutz bei Formspree finden Sie unter:
+            <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">
+              https://formspree.io/legal/privacy-policy
+            </a>
+          </p>
+
+        </div>
+      </details>
     </div>
   </section>
 
@@ -609,7 +619,7 @@ summary{
 <footer class="bottombar">
   <div class="social" aria-label="Social Links">
     <a class="icon" href="https://www.instagram.com/fashionedfrombone/" target="_blank" rel="noopener" aria-label="Instagram">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5zM18 7.2a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3 0 0 0 12 10.5zM18 7.2a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
     </a>
 
     <a class="icon" href="https://www.tiktok.com/@fashionedfrombone" target="_blank" rel="noopener" aria-label="TikTok">
@@ -641,6 +651,7 @@ summary{
   const nav = document.querySelector(".nav");
   const closeBtn = document.querySelector(".nav-close");
   const goTop = document.querySelector(".gotop");
+  const impressumDetails = document.getElementById("impressumDetails");
 
   const openNav = () => {
     nav.classList.add("is-open");
@@ -669,6 +680,12 @@ summary{
     if (e.key === "Escape") closeNav();
   });
 
+  const openImpressumIfNeeded = (hash) => {
+    if (hash === "#impressum" && impressumDetails) {
+      impressumDetails.open = true;
+    }
+  };
+
   // Smooth scroll
   document.querySelectorAll('a[data-scroll], a[href="#top"]').forEach((a) => {
     a.addEventListener("click", (e) => {
@@ -676,10 +693,20 @@ summary{
       if (!href || !href.startsWith("#")) return;
       const target = document.querySelector(href);
       if (!target) return;
+
       e.preventDefault();
+      openImpressumIfNeeded(href);
+
       target.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      // URL-Hash setzen (damit "Zurück" korrekt funktioniert)
+      history.pushState(null, "", href);
     });
   });
+
+  // Falls Seite direkt mit #impressum geladen wird
+  openImpressumIfNeeded(location.hash);
+  window.addEventListener("hashchange", () => openImpressumIfNeeded(location.hash));
 
   // Logo fade + Back-to-top visibility
   const updateUI = () => {
@@ -693,22 +720,23 @@ summary{
   // Back to top click
   goTop.addEventListener("click", () => {
     document.querySelector("#top").scrollIntoView({ behavior:"smooth" });
+    history.pushState(null, "", "#top");
   });
 
-  // Enable "Nachricht senden" only when required fields are valid
+  // Enable submit only when required fields valid
   const form = document.getElementById("contactForm");
   const submitBtn = document.getElementById("contactSubmit");
   const subjectEl = document.getElementById("c_subject");
   const emailEl = document.getElementById("c_email");
   const msgEl = document.getElementById("c_message");
+  const successBox = document.getElementById("contactSuccess");
+  const errorBox = document.getElementById("contactError");
 
   const updateSubmitState = () => {
     if (!form || !submitBtn) return;
-
-    const subjectOk = subjectEl && subjectEl.value.trim().length > 0;
-    const msgOk = msgEl && msgEl.value.trim().length > 0;
-    const emailOk = emailEl && emailEl.value.trim().length > 0 && emailEl.checkValidity();
-
+    const subjectOk = subjectEl.value.trim().length > 0;
+    const msgOk = msgEl.value.trim().length > 0;
+    const emailOk = emailEl.value.trim().length > 0 && emailEl.checkValidity();
     submitBtn.disabled = !(subjectOk && msgOk && emailOk);
   };
 
@@ -717,6 +745,50 @@ summary{
       form.addEventListener(evt, updateSubmitState, true);
     });
     updateSubmitState();
+
+    // AJAX submit -> keine Formspree-ThankYou-Seite
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      updateSubmitState();
+      if (submitBtn.disabled) return;
+
+      // Honeypot check (wenn Bot: einfach "tun als ob")
+      const hp = form.querySelector('input[name="website"]');
+      if (hp && hp.value.trim() !== "") return;
+
+      if (successBox) successBox.style.display = "none";
+      if (errorBox) errorBox.style.display = "none";
+
+      submitBtn.disabled = true;
+      const oldText = submitBtn.textContent;
+      submitBtn.textContent = "Sende…";
+
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { "Accept": "application/json" }
+        });
+
+        if (res.ok) {
+          form.reset();
+          updateSubmitState();
+          if (successBox) {
+            successBox.style.display = "block";
+            successBox.scrollIntoView({ behavior:"smooth", block:"start" });
+          }
+        } else {
+          if (errorBox) errorBox.style.display = "block";
+          updateSubmitState();
+        }
+      } catch {
+        if (errorBox) errorBox.style.display = "block";
+        updateSubmitState();
+      } finally {
+        submitBtn.textContent = oldText;
+        updateSubmitState();
+      }
+    });
   }
 
   /* HERO SLIDER PNG (Crossfade) */
