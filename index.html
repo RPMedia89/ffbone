@@ -36,7 +36,6 @@ a:hover, a:focus-visible{ text-decoration:underline; outline:none; }
   align-items:flex-start;
   z-index:100;
   pointer-events:none;
-  transition: padding .25s ease;
 }
 .topbar *{pointer-events:auto;}
 
@@ -47,14 +46,14 @@ a:hover, a:focus-visible{ text-decoration:underline; outline:none; }
   color:inherit;
 }
 .brand img{
-  height:120px; /* groß am Anfang */
+  height:120px;
   width:auto;
   display:block;
   transition: height .6s ease, transform .6s ease, opacity .6s ease;
   transform-origin: top left;
 }
 
-/* beim Scrollen: kleiner & blendet aus */
+/* beim Scrollen: blendet aus */
 body.is-scrolled .brand img{
   height:58px;
   opacity:0;
@@ -73,7 +72,6 @@ body.is-scrolled .brand img{
   letter-spacing:.12em;
   font-size:1.8em;
   color:#fff;
-  text-decoration:none;
   border-bottom:2px solid transparent;
   padding:6px 0;
   opacity:.95;
@@ -136,7 +134,6 @@ body.is-scrolled .brand img{
   border-radius:10px;
   border:1px solid rgba(255,255,255,.18);
   background:rgba(255,255,255,.06);
-  text-decoration:none;
 }
 .icon:hover,
 .icon:focus-visible{
@@ -145,21 +142,12 @@ body.is-scrolled .brand img{
 }
 .icon svg{width:18px;height:18px;fill:#fff;}
 
-.footer-links{
-  display:flex;gap:28px;
-}
+.footer-links{ display:flex; gap:28px; }
 .footer-links a{
   font-weight:900;
   text-transform:uppercase;
   letter-spacing:.12em;
   font-size:12px;
-  color:#fff;
-  text-decoration:none;
-}
-.footer-links a:hover,
-.footer-links a:focus-visible{
-  text-decoration:underline;
-  outline:none;
 }
 
 /* ================= PAGE ================= */
@@ -180,7 +168,7 @@ body.is-scrolled .brand img{
   position:relative;
   z-index:2;
 }
-.section h2{
+.section h2, .section h1{
   margin:0;
   font-weight:900;
   text-transform:uppercase;
@@ -199,8 +187,6 @@ body.is-scrolled .brand img{
   transition:opacity 1.05s ease;
 }
 .hero__bg.is-visible{opacity:1;}
-
-/* Overlay */
 .hero__overlay{
   position:absolute;
   inset:0;
@@ -232,9 +218,9 @@ body.is-scrolled .brand img{
 
 /* ================= SECTIONS ================= */
 .termine{background:#0b0b12;}
-.media{background:#120b0b;}
 .kontakt{background:#0b120d;}
 .impressum{background:#0a0a0a;}
+.impressum{font-size:12px;}
 
 /* ================= SHOWLIST ================= */
 .showlist{list-style:none;padding:0;margin-top:18px;}
@@ -254,108 +240,7 @@ summary{
   letter-spacing:.1em;
 }
 
-/* ================= MEDIA ================= */
-.video{margin-top:18px;}
-.video-wrap{
-  position:relative;
-  padding-top:56.25%;
-  border-radius:14px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.15);
-  background:rgba(255,255,255,.04);
-}
-.video-wrap iframe{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  border:0;
-}
-
-/* ================= BACK TO TOP ================= */
-.gotop{
-  position:fixed;
-  right:var(--pad-x);
-  bottom:calc(var(--bottom-h) + 16px);
-  width:46px;
-  height:46px;
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.22);
-  background:rgba(0,0,0,.55);
-  backdrop-filter:blur(10px);
-  display:grid;
-  place-items:center;
-  cursor:pointer;
-  opacity:0;
-  transform:translateY(10px);
-  pointer-events:none;
-  transition:opacity .25s ease, transform .25s ease;
-  z-index:120;
-}
-.gotop svg{width:18px;height:18px;fill:#fff;}
-.gotop.is-visible{
-  opacity:1;
-  transform:translateY(0);
-  pointer-events:auto;
-}
-.gotop:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
-
-/* ================= MOBILE ================= */
-@media(max-width:860px){
-  :root{--top-h:90px;--bottom-h:110px;--pad-x:18px;}
-
-  .nav-toggle{display:block;}
-
-  .nav{
-    position:fixed;
-    inset:0;
-    display:none;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:22px;
-    background:rgba(0,0,0,.95);
-    z-index:110;
-  }
-  .nav.is-open{display:flex;}
-  .nav a{ font-size:18px; letter-spacing:.14em; }
-  .nav-close{display:grid;place-items:center;}
-
-  /* ✅ FOOTER MOBILE: alles zentriert + Abstand */
-  .bottombar{
-    align-items:center;          /* statt flex-start */
-    flex-direction:column;
-    gap:16px;
-    text-align:center;
-  }
-
-  .footer-links{
-    width:100%;
-    justify-content:center;      /* statt space-between */
-    gap:18px;                    /* Abstand zwischen Kontakt/Impressum */
-  }
-
-  .footer-links a{
-    flex:0;                      /* nicht mehr auseinanderziehen */
-    text-align:center;
-  }
-
-  .social{
-    width:100%;
-    justify-content:center;      /* Social Buttons zentrieren */
-  }
-
-  .contact-form{ max-width:100%; }
-  .field input, .field textarea{ border-radius:14px; }
-  .contact-submit{ border-radius:14px; }
-
-  
-  
-}
-
-  .impressum{font-size: 12px;}
-
-
+/* ================= CONTACT FORM ================= */
 .contact-form{ margin-top:22px; max-width:720px; }
 .field{ position:relative; margin:14px 0; }
 
@@ -413,14 +298,23 @@ summary{
   text-transform:uppercase;
   letter-spacing:.12em;
   cursor:pointer;
-  transition:transform .12s ease, background .2s ease, border-color .2s ease;
+  transition:transform .12s ease, background .2s ease, border-color .2s ease, opacity .2s ease;
 }
 .contact-submit:hover{
   background:rgba(255,255,255,.14);
   border-color:rgba(255,255,255,.35);
   transform:translateY(-1px);
 }
+.contact-submit:active{ transform:translateY(0); }
 .contact-submit:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+
+.contact-submit:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+  transform:none;
+  background:rgba(255,255,255,.06);
+  border-color:rgba(255,255,255,.14);
+}
 
 .contact-note, .contact-fallback{
   margin-top:12px;
@@ -429,6 +323,10 @@ summary{
   line-height:1.4;
 }
 .contact-fallback a{ text-decoration:underline; }
+
+/* Danke-Box: nur sichtbar nach erfolgreichem Redirect (#kontakt-danke) */
+#kontakt-danke{ display:none; }
+#kontakt-danke:target{ display:block; }
 
 .contact-success{
   margin-top:22px;
@@ -446,6 +344,7 @@ summary{
   font-size:16px;
 }
 
+/* Honeypot unsichtbar */
 .hp{
   position:absolute !important;
   left:-9999px !important;
@@ -453,12 +352,78 @@ summary{
   overflow:hidden;
 }
 
+/* ================= BACK TO TOP ================= */
+.gotop{
+  position:fixed;
+  right:var(--pad-x);
+  bottom:calc(var(--bottom-h) + 16px);
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  opacity:0;
+  transform:translateY(10px);
+  pointer-events:none;
+  transition:opacity .25s ease, transform .25s ease;
+  z-index:120;
+}
+.gotop svg{width:18px;height:18px;fill:#fff;}
+.gotop.is-visible{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+.gotop:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
 
+/* ================= MOBILE ================= */
+@media(max-width:860px){
+  :root{--top-h:90px;--bottom-h:110px;--pad-x:18px;}
 
+  .nav-toggle{display:block;}
 
+  .nav{
+    position:fixed;
+    inset:0;
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:22px;
+    background:rgba(0,0,0,.95);
+    z-index:110;
+  }
+  .nav.is-open{display:flex;}
+  .nav a{ font-size:18px; letter-spacing:.14em; }
+  .nav-close{display:grid;place-items:center;}
 
-  
- 
+  .bottombar{
+    align-items:center;
+    flex-direction:column;
+    gap:16px;
+    text-align:center;
+  }
+
+  .footer-links{
+    width:100%;
+    justify-content:center;
+    gap:18px;
+  }
+
+  .footer-links a{ flex:0; text-align:center; }
+
+  .social{
+    width:100%;
+    justify-content:center;
+  }
+
+  .contact-form{ max-width:100%; }
+  .field input, .field textarea, .contact-submit, .contact-success{ border-radius:14px; }
+}
 </style>
 </head>
 
@@ -469,7 +434,7 @@ summary{
     <img src="images/logo.png" alt="Fashioned from Bone">
   </a>
 
-  <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false">
+  <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false" type="button">
     <span></span><span></span><span></span>
   </button>
 
@@ -478,7 +443,6 @@ summary{
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3z"/></svg>
     </button>
     <a href="#termine" data-scroll>Termine</a>
-
   </nav>
 </header>
 
@@ -514,126 +478,135 @@ summary{
     </div>
   </section>
 
+  <section id="kontakt" class="section kontakt">
+    <div class="section__inner">
+      <h2>Kontakt</h2>
 
-<section id="kontakt" class="section kontakt">
-  <div class="section__inner">
-    <h2>Kontakt</h2>
+      <form class="contact-form"
+            id="contactForm"
+            action="https://formspree.io/f/xyzrqznz"
+            method="POST">
 
-    <form class="contact-form"
-          action="https://formspree.io/f/xyzrqznz"
-          method="POST">
+        <div class="hp" aria-hidden="true">
+          <label>Bitte leer lassen
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </label>
+        </div>
 
-      <!-- Honeypot gegen Bots -->
-      <div class="hp" aria-hidden="true">
-        <label>Bitte leer lassen
-          <input type="text" name="website" tabindex="-1" autocomplete="off">
-        </label>
+        <div class="field">
+          <input id="c_name" name="name" type="text" placeholder=" " autocomplete="name">
+          <label for="c_name">Name (optional)</label>
+        </div>
+
+        <div class="field">
+          <input id="c_subject" name="subject" type="text" placeholder=" " required>
+          <label for="c_subject">Betreff (Pflicht)</label>
+        </div>
+
+        <div class="field">
+          <input id="c_email" name="email" type="email" placeholder=" " required autocomplete="email">
+          <label for="c_email">E-Mail (Pflicht)</label>
+        </div>
+
+        <div class="field field--textarea">
+          <textarea id="c_message" name="message" placeholder=" " required rows="6"></textarea>
+          <label for="c_message">Nachricht (Pflicht)</label>
+        </div>
+
+        <input type="hidden" name="_subject" value="Neue Nachricht über fashionedfrombone.de">
+        <input type="hidden" name="_next" value="/#kontakt-danke">
+
+        <button class="contact-submit" id="contactSubmit" type="submit" disabled>
+          Nachricht senden
+        </button>
+
+        <p class="contact-note">
+          Ihre Angaben werden zur Bearbeitung Ihrer Anfrage verarbeitet und an
+          <strong>fashionedfrombone@gmail.com</strong> übermittelt.
+        </p>
+
+        <p class="contact-fallback">
+          Falls das Formular nicht funktioniert:
+          <a href="mailto:fashionedfrombone@gmail.com">fashionedfrombone@gmail.com</a>
+        </p>
+      </form>
+
+      <div id="kontakt-danke" class="contact-success" tabindex="-1">
+        <h3>Danke für Ihre Anfrage!</h3>
+        <p>Ihre Nachricht wurde gesendet. Wir melden uns so schnell wie möglich.</p>
       </div>
-
-      <div class="field">
-        <input id="c_name" name="name" type="text" placeholder=" " autocomplete="name">
-        <label for="c_name">Name (optional)</label>
-      </div>
-
-      <div class="field">
-        <input id="c_subject" name="subject" type="text" placeholder=" " required>
-        <label for="c_subject">Betreff (Pflicht)</label>
-      </div>
-
-      <div class="field">
-        <input id="c_email" name="email" type="email" placeholder=" " required autocomplete="email">
-        <label for="c_email">E-Mail (Pflicht)</label>
-      </div>
-
-      <div class="field field--textarea">
-        <textarea id="c_message" name="message" placeholder=" " required rows="6"></textarea>
-        <label for="c_message">Nachricht (Pflicht)</label>
-      </div>
-
-      <!-- Betreffzeile in deinem Postfach -->
-      <input type="hidden" name="_subject" value="Neue Nachricht über fashionedfrombone.de">
-
-      <!-- Nach erfolgreichem Senden -->
-      <input type="hidden" name="_next" value="/#kontakt-danke">
-
-      <button class="contact-submit" type="submit">
-        Nachricht senden
-      </button>
-
-      <p class="contact-note">
-        Ihre Angaben werden zur Bearbeitung Ihrer Anfrage verarbeitet und an
-        <strong>fashionedfrombone@gmail.com</strong> übermittelt.
-      </p>
-
-      <p class="contact-fallback">
-        Falls das Formular nicht funktioniert:
-        <a href="mailto:fashionedfrombone@gmail.com">fashionedfrombone@gmail.com</a>
-      </p>
-    </form>
-
-    <div id="kontakt-danke" class="contact-success" tabindex="-1">
-      <h3>Danke für Ihre Anfrage!</h3>
-      <p>Ihre Nachricht wurde gesendet. Wir melden uns so schnell wie möglich.</p>
     </div>
-  </div>
-</section>
-
-
+  </section>
 
   <section id="impressum" class="section impressum">
     <div class="section__inner">
-<h1>Impressum</h1> 
-<p>Angaben gemäß § 5 DDG</p> 
-<p>Rafael Piechowiak<br> 
-<br> 
-Koßmannstraße 28<br> 
-66119 Saarbrücken <br> 
-</p> 
-<p> <strong>Vertreten durch: </strong><br>
-Rafael Piechowiak<br>
-</p> 
-<p><strong>Kontakt:</strong> <br>
-Telefon: 0163-214 6005<br>
-E-Mail: <a>piechowiak89@gmail.com</a></br></p> 
-<p><strong>Verbraucherstreitbeilegung / Universalschlichtungsstelle</strong>
-<br>Wir nehmen nicht an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teil und sind dazu auch nicht verpflichtet.
-</p> 
-<p><strong>Haftungsausschluss: </strong>
-<br><br><strong>Haftung für Inhalte</strong><br>
-Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.<br><br><strong>Haftung für Links</strong><br>
-Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.<br><br><strong>Urheberrecht</strong><br>
-Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.</p> 
-<p>Erstellt mit <a href="https://impressum-generator.de" rel="dofollow">Impressum-Generator.de</a>, dem Tool für Impressum und <a href="https://impressum-generator.de/datenschutz-generator" rel="dofollow">Datenschutz-Erklärung</a>. Nach einer Vorlage der <a href="https://www.kanzlei-hasselbach.de/" rel="dofollow">Kanzlei Hasselbach</a>.</p>
-   
-    <h1>Datenschutzerklärung</h1> 
-<p>Diese Website verwendet keine Tracking-Cookies und keine externen Dienste.
-Es werden keine personenbezogenen Daten durch Cookies zu Analyse- oder Marketingzwecken verarbeitet.</p> 
-<p> Hosting der Website über GitHub Pages, ausgeliefert über ein CDN (Fastly) zur sicheren und effizienten Bereitstellung der Inhalte.</p>
+
+      <h1>Impressum</h1>
+      <p>Angaben gemäß § 5 DDG</p>
+
+      <p>
+        Rafael Piechowiak<br>
+        Koßmannstraße 28<br>
+        66119 Saarbrücken
+      </p>
+
+      <p><strong>Vertreten durch:</strong><br>Rafael Piechowiak</p>
+
+      <p><strong>Kontakt:</strong><br>
+        Telefon: 0163-214 6005<br>
+        E-Mail: <a href="mailto:piechowiak89@gmail.com">piechowiak89@gmail.com</a>
+      </p>
+
+      <p><strong>Verbraucherstreitbeilegung / Universalschlichtungsstelle</strong><br>
+        Wir nehmen nicht an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teil und sind dazu auch nicht verpflichtet.
+      </p>
+
+      <p><strong>Haftungsausschluss:</strong><br><br>
+        <strong>Haftung für Inhalte</strong><br>
+        Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.<br><br>
+        <strong>Haftung für Links</strong><br>
+        Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.<br><br>
+        <strong>Urheberrecht</strong><br>
+        Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
+      </p>
+
+      <p>
+        Erstellt mit <a href="https://impressum-generator.de" rel="dofollow">Impressum-Generator.de</a>,
+        dem Tool für Impressum und <a href="https://impressum-generator.de/datenschutz-generator" rel="dofollow">Datenschutz-Erklärung</a>.
+        Nach einer Vorlage der <a href="https://www.kanzlei-hasselbach.de/" rel="dofollow">Kanzlei Hasselbach</a>.
+      </p>
+
+      <h1>Datenschutzerklärung</h1>
+      <p>
+        Diese Website verwendet keine Tracking-Cookies und keine externen Analyse- oder Marketingdienste.
+      </p>
+      <p>
+        Hosting der Website über GitHub Pages, ausgeliefert über ein CDN (Fastly) zur sicheren und effizienten Bereitstellung der Inhalte.
+      </p>
 
       <h2>Kontaktaufnahme per Formular</h2>
-<p>Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Formular inklusive der von Ihnen dort angegebenen Kontaktdaten zum Zweck der Bearbeitung der Anfrage und für den Fall von Anschlussfragen verarbeitet.</p>
+      <p>
+        Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Formular inklusive der von Ihnen dort angegebenen Kontaktdaten zum Zweck der Bearbeitung der Anfrage und für den Fall von Anschlussfragen verarbeitet.
+      </p>
+      <p>
+        Die Übermittlung der Formulardaten erfolgt über den Dienst Formspree (Formspree Inc., USA). Die Daten werden ausschließlich zur Weiterleitung der Nachricht an uns verwendet und nicht für Werbezwecke eingesetzt.
+      </p>
+      <p>
+        Rechtsgrundlage für die Verarbeitung der Daten ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung Ihrer Anfrage).
+      </p>
+      <p>
+        Weitere Informationen zum Datenschutz bei Formspree finden Sie unter:
+        <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">
+          https://formspree.io/legal/privacy-policy
+        </a>
+      </p>
 
-<p>Die Übermittlung der Formulardaten erfolgt über den Dienst Formspree (Formspree Inc., USA). Die Daten werden ausschließlich zur Weiterleitung der Nachricht an uns verwendet und nicht für Werbezwecke eingesetzt.</p>
-
-<p>Rechtsgrundlage für die Verarbeitung der Daten ist Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) bzw. Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung Ihrer Anfrage).</p>
-
-<p>Weitere Informationen zum Datenschutz bei Formspree finden Sie unter:</p>
-<p>
-  Weitere Informationen zum Datenschutz bei Formspree finden Sie unter:
-  <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">
-    https://formspree.io/legal/privacy-policy
-  </a>
-</p>
-
-    
-    
     </div>
   </section>
 
 </main>
 
 <footer class="bottombar">
-
   <div class="social" aria-label="Social Links">
     <a class="icon" href="https://www.instagram.com/fashionedfrombone/" target="_blank" rel="noopener" aria-label="Instagram">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4.5A5.5 5.5 0 1 1 6.5 14 5.5 5.5 0 0 1 12 8.5zm0 2A3.5 3.5 0 1 0 15.5 14 3.5 3.5 0 0 0 12 10.5zM18 7.2a1 1 0 1 1-1 1 1 1 0 0 1 1-1z"/></svg>
@@ -656,7 +629,6 @@ Es werden keine personenbezogenen Daten durch Cookies zu Analyse- oder Marketing
     <a href="#kontakt" data-scroll>Kontakt</a>
     <a href="#impressum" data-scroll>Impressum</a>
   </div>
-  
 </footer>
 
 <button class="gotop" type="button" aria-label="Nach oben">
@@ -723,6 +695,30 @@ Es werden keine personenbezogenen Daten durch Cookies zu Analyse- oder Marketing
     document.querySelector("#top").scrollIntoView({ behavior:"smooth" });
   });
 
+  // Enable "Nachricht senden" only when required fields are valid
+  const form = document.getElementById("contactForm");
+  const submitBtn = document.getElementById("contactSubmit");
+  const subjectEl = document.getElementById("c_subject");
+  const emailEl = document.getElementById("c_email");
+  const msgEl = document.getElementById("c_message");
+
+  const updateSubmitState = () => {
+    if (!form || !submitBtn) return;
+
+    const subjectOk = subjectEl && subjectEl.value.trim().length > 0;
+    const msgOk = msgEl && msgEl.value.trim().length > 0;
+    const emailOk = emailEl && emailEl.value.trim().length > 0 && emailEl.checkValidity();
+
+    submitBtn.disabled = !(subjectOk && msgOk && emailOk);
+  };
+
+  if (form && submitBtn) {
+    ["input","change","keyup","blur"].forEach(evt => {
+      form.addEventListener(evt, updateSubmitState, true);
+    });
+    updateSubmitState();
+  }
+
   /* HERO SLIDER PNG (Crossfade) */
   const images=[
     "images/11.png","images/111.png","images/12.png","images/13.png",
@@ -746,30 +742,7 @@ Es werden keine personenbezogenen Daten durch Cookies zu Analyse- oder Marketing
     bgs[1-show].classList.remove("is-visible");
   },4000);
 })();
-
- 
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
